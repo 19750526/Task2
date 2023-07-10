@@ -15,6 +15,7 @@ public class ReservationDto {
     private LocalDate stopDate;
 
     private String apartment;
+    private Long apartmentId;
 
     private String tenant;
 

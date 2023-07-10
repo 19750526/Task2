@@ -9,5 +9,6 @@ import org.mapstruct.Mapping;
 public interface ReservationMapper {
     @Mapping(source = "tenant.name", target = "tenant")
     @Mapping(source = "apartment.name", target = "apartment")
+    @Mapping(source = "apartment.id", target = "apartmentId")
     ReservationDto mapToDto(Reservation entity);
 }

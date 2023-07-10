@@ -1,12 +1,12 @@
 package com.example.demo.controller;
 
+import com.example.demo.dto.CreateReservationDto;
 import com.example.demo.dto.ReservationDto;
 import com.example.demo.service.ReservationService;
+import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -24,6 +24,11 @@ public class ReservationController {
     @GetMapping
     ResponseEntity<List<ReservationDto>> allReservation() {
         return handleEmpty(reservationService.allReservations());
+    }
+
+    @PostMapping
+    ResponseEntity<ReservationDto> makeReservation(@RequestBody @Valid CreateReservationDto dto) {
+        return ResponseEntity.ok(reservationService.makeReservation(dto));
     }
 
     private <T> ResponseEntity<List<T>> handleEmpty(List<T> body) {

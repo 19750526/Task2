@@ -39,7 +39,7 @@ public class Reservation {
 
     public void countPrice() {
         price = apartment.getOvernightFee() *
-                Duration.between(startDate.atTime(14, 0), stopDate.atTime(12, 0))
+                Duration.between(startDate.atTime(12, 0), stopDate.atTime(12, 0))
                         .toDays();
     }
 }
