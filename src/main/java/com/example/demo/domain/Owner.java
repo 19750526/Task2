@@ -1,13 +1,17 @@
 package com.example.demo.domain;
 
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
-import lombok.RequiredArgsConstructor;
+import lombok.NoArgsConstructor;
 
 @Data
 @Entity
+@Builder
 @Table(name = "owner")
-@RequiredArgsConstructor
+@AllArgsConstructor
+@NoArgsConstructor
 public class Owner {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

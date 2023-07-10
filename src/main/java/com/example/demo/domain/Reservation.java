@@ -1,15 +1,19 @@
 package com.example.demo.domain;
 
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
-import lombok.RequiredArgsConstructor;
+import lombok.NoArgsConstructor;
 
-import java.util.Date;
+import java.time.LocalDate;
 
 @Data
 @Entity
+@Builder
 @Table(name = "reservation")
-@RequiredArgsConstructor
+@AllArgsConstructor
+@NoArgsConstructor
 public class Reservation {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -17,11 +21,11 @@ public class Reservation {
 
     @Temporal(TemporalType.DATE)
     @Column(name = "start_date")
-    private Date startDate;
+    private LocalDate startDate;
 
     @Temporal(TemporalType.DATE)
     @Column(name = "stop_date")
-    private Date stopDate;
+    private LocalDate stopDate;
 
     @ManyToOne
     @JoinColumn(name = "apartment_id")
