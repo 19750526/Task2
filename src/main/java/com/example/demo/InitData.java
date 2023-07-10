@@ -25,31 +25,33 @@ public class InitData {
 
     @PostConstruct
     void init() {
-        var tenant1 = new Tenant().builder()
+        var tenant1 = Tenant.builder()
                 .name("Tenant" + RandomUtils.nextInt()).build();
-        var tenant2 = new Tenant().builder()
+        var tenant2 = Tenant.builder()
                 .name("Tenant" + RandomUtils.nextInt()).build();
 
-        var owner1 = new Owner().builder()
+        var owner1 = Owner.builder()
                 .name("Owner" + RandomUtils.nextInt()).build();
 
-        var owner2 = new Owner().builder()
+        var owner2 = Owner.builder()
                 .name("Owner" + RandomUtils.nextInt()).build();
 
-        var apartament1 = new Apartment().builder()
+        var apartament1 = Apartment.builder()
                 .name("Apartment" + RandomUtils.nextInt())
                 .area(50.0)
-                .unitPrice(100.0)
+                .overnightFee(100.0)
                 .owner(owner1)
                 .description("The best apartment.")
                 .build();
         LocalDate today = LocalDate.now();
-        var reservation1 = new Reservation().builder()
+        var reservation1 = Reservation.builder()
                 .startDate(today)
                 .stopDate(today.plusDays(10))
                 .apartment(apartament1)
                 .tenant(tenant1)
                 .build();
+        reservation1.countPrice();
+
         ownerRepository.save(owner1);
         ownerRepository.save(owner2);
         tenantRepository.save(tenant1);

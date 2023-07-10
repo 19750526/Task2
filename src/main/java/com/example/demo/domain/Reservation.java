@@ -6,6 +6,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.time.Duration;
 import java.time.LocalDate;
 
 @Data
@@ -19,22 +20,26 @@ public class Reservation {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Temporal(TemporalType.DATE)
-    @Column(name = "start_date")
+    @Column(name = "start_date", nullable = false)
     private LocalDate startDate;
 
-    @Temporal(TemporalType.DATE)
-    @Column(name = "stop_date")
+    @Column(name = "stop_date", nullable = false)
     private LocalDate stopDate;
 
     @ManyToOne
-    @JoinColumn(name = "apartment_id")
+    @JoinColumn(name = "apartment_id", nullable = false)
     private Apartment apartment;
 
     @ManyToOne
     @JoinColumn(name = "tenant_id")
     private Tenant tenant;
 
-    private double cost;
+    @Column(nullable = false)
+    private double price;
 
+    public void countPrice() {
+        price = apartment.getOvernightFee() *
+                Duration.between(startDate.atTime(14, 0), stopDate.atTime(12, 0))
+                        .toDays();
+    }
 }

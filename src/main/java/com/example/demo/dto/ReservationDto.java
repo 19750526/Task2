@@ -3,20 +3,20 @@ package com.example.demo.dto;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
 
-import java.util.Date;
+import java.time.LocalDate;
 
 @Data
 @RequiredArgsConstructor
 public class ReservationDto {
     private Long id;
 
-    private Date startDate;
+    private LocalDate startDate;
 
-    private Date stopDate;
+    private LocalDate stopDate;
 
     private String apartment;
 
     private String tenant;
 
-    private double cost;
+    private double price;
 }

@@ -18,13 +18,14 @@ public class Apartment {
     private Long id;
 
     @ManyToOne
-    @JoinColumn(name = "owner_id")
+    @JoinColumn(name = "owner_id", nullable = false)
     private Owner owner;
 
+    @Column(nullable = false)
     private String name;
 
-    @Column(name = "unit_price")
-    private Double unitPrice;
+    @Column(name = "overnight_fee", nullable = false)
+    private Double overnightFee;
 
     private Double area;
 
