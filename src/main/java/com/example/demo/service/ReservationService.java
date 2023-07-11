@@ -99,4 +99,11 @@ public class ReservationService {
         reservation.countPrice();
         return reservationMapper.mapToDto(reservationRepository.save(reservation));
     }
+
+    public List<ReservationDto> findByTenantName(String tenantName) {
+        return reservationRepository.findAllByTenantName(tenantName).stream().map(reservationMapper::mapToDto).toList();
+    }
+    public List<ReservationDto> findByApartmentId(Long apartmentId) {
+        return reservationRepository.findAllByApartamentId(apartmentId).stream().map(reservationMapper::mapToDto).toList();
+    }
 }

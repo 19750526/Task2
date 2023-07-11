@@ -6,8 +6,10 @@ import com.example.demo.dto.ReservationDto;
 import com.example.demo.service.ReservationService;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
 
@@ -35,6 +37,20 @@ public class ReservationController {
     @PutMapping("/{id}")
     ResponseEntity<ReservationDto> changeReservation(@PathVariable("id") Long id, @RequestBody @Valid ChangeReservationDto dto) {
         return ResponseEntity.ok(reservationService.changeReservation(id, dto));
+    }
+
+    @GetMapping("/simple-search")
+    ResponseEntity<List<ReservationDto>> search(@RequestParam(value = "tenantName", required = false) String tenantName,
+                                                @RequestParam(value = "apartamentId", required = false) Long apartamentId) {
+        if ((tenantName == null && apartamentId == null) || (tenantName != null && apartamentId != null)) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Only one parameter is processed");
+        }
+
+        if (tenantName != null) {
+            return ResponseEntity.ok(reservationService.findByTenantName(tenantName));
+        }
+
+        return ResponseEntity.ok(reservationService.findByApartmentId(apartamentId));
     }
 
     private <T> ResponseEntity<List<T>> handleEmpty(List<T> body) {
