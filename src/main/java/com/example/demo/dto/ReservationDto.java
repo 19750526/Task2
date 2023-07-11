@@ -2,9 +2,11 @@ package com.example.demo.dto;
 
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
+import lombok.experimental.SuperBuilder;
 
 @Data
 @RequiredArgsConstructor
+@SuperBuilder
 public class ReservationDto extends BaseReservationDto {
     private Long id;
 

@@ -7,9 +7,14 @@ import com.example.demo.dto.ReservationDto;
 import java.util.List;
 
 public interface ReservationService {
-    public List<ReservationDto> allReservations();
-    public ReservationDto makeReservation(CreateReservationDto dto);
-    public ReservationDto changeReservation(Long id, ChangeReservationDto dto);
-    public List<ReservationDto> findByTenantName(String tenantName);
-    public List<ReservationDto> findByApartmentId(Long apartmentId);
+    List<ReservationDto> allReservations();
+
+    ReservationDto makeReservation(CreateReservationDto dto);
+
+    ReservationDto changeReservation(Long id, ChangeReservationDto dto);
+
+    List<ReservationDto> findByTenantName(String tenantName);
+
+    List<ReservationDto> findByApartmentId(Long apartmentId);
+
 }
