@@ -87,6 +87,7 @@ public class ReservationService {
 
         Long apartmentId = reservation.getApartment().getId();
         List<Reservation> existingReservations = reservationRepository.findAllByApartamentId(apartmentId);
+        existingReservations.remove(reservation);
         var hasOverlappingDates = hasOverlappingDates(dto, existingReservations);
 
         if (hasOverlappingDates) {
