@@ -1,5 +1,6 @@
 package com.example.demo.controller;
 
+import com.example.demo.dto.ChangeReservationDto;
 import com.example.demo.dto.CreateReservationDto;
 import com.example.demo.dto.ReservationDto;
 import com.example.demo.service.ReservationService;
@@ -29,6 +30,11 @@ public class ReservationController {
     @PostMapping
     ResponseEntity<ReservationDto> makeReservation(@RequestBody @Valid CreateReservationDto dto) {
         return ResponseEntity.ok(reservationService.makeReservation(dto));
+    }
+
+    @PutMapping("/{id}")
+    ResponseEntity<ReservationDto> changeReservation(@PathVariable Long id, @RequestBody @Valid ChangeReservationDto dto) {
+        return ResponseEntity.ok(reservationService.changeReservation(id, dto));
     }
 
     private <T> ResponseEntity<List<T>> handleEmpty(List<T> body) {

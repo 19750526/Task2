@@ -5,12 +5,14 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDate;
+
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class CreateReservationDto extends BaseReservationDto {
+public class BaseReservationDto {
     @NotNull
-    private Long apartmentId;
+    private LocalDate startDate;
     @NotNull
-    private Long tenantId;
+    private LocalDate stopDate;
 }

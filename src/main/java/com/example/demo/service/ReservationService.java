@@ -3,6 +3,8 @@ package com.example.demo.service;
 import com.example.demo.domain.Apartment;
 import com.example.demo.domain.Reservation;
 import com.example.demo.domain.Tenant;
+import com.example.demo.dto.BaseReservationDto;
+import com.example.demo.dto.ChangeReservationDto;
 import com.example.demo.dto.CreateReservationDto;
 import com.example.demo.dto.ReservationDto;
 import com.example.demo.exception.NotFoundException;
@@ -49,7 +51,7 @@ public class ReservationService {
         return createReservation(dto);
     }
 
-    private boolean hasOverlappingDates(CreateReservationDto dto, List<Reservation> existingReservations) {
+    private boolean hasOverlappingDates(BaseReservationDto dto, List<Reservation> existingReservations) {
         LocalDate newStart = dto.getStartDate();
         LocalDate newStop = dto.getStopDate();
 //        (StartA <= EndB) and (EndA >= StartB)
@@ -79,4 +81,21 @@ public class ReservationService {
     }
 
 
+    public ReservationDto changeReservation(Long id, ChangeReservationDto dto) {
+        Reservation reservation = reservationRepository.findById(id)
+                .orElseThrow(() -> new NotFoundException("Reservation with given id not found."));
+
+        Long apartmentId = reservation.getApartment().getId();
+        List<Reservation> existingReservations = reservationRepository.findAllByApartamentId(apartmentId);
+        var hasOverlappingDates = hasOverlappingDates(dto, existingReservations);
+
+        if (hasOverlappingDates) {
+            throw new UnableToRegisterReservation("Reservation with given id can not be changed due to given period.");
+        }
+
+        reservation.setStartDate(dto.getStartDate());
+        reservation.setStopDate(dto.getStopDate());
+        reservation.countPrice();
+        return reservationMapper.mapToDto(reservationRepository.save(reservation));
+    }
 }
