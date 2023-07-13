@@ -1,0 +1,49 @@
+
+Swagger: http://localhost:8080/swagger-ui/index.html
+Baza http://localhost:8080/h2-console
+jdbcurl: ~/testdb
+user: sa
+password: (pusty)
+
+Wraz z inicjalizacją (realizowaną przez metodę init z adnotacją @PostConstruct w src/main/java/com/example/demo/InitData.java) powstają:
+tenant1 - klient id=1
+tenant2 - klient id=2
+
+owner1 - właściciel id=1
+owner2 - właściciel id=2
+
+apartament1 id=1 (właściciel owner1)
+
+reservation1 id=1 (wynajmujacy tenant1)
+reservation2 id=2 (wynajmujacy tenant2)
+
+Baza danych przy restarcie jest czyszczona i zawsze zapewnia powyższe wpisy. Jeżeli potrzeba więcej to można coś dodać.
+
+Testowanie:
+Wydaje mi się że GET POST i PUT dla /reservations to oczywisty CRUD więc tu nie ma co opisywać.
+Ciekawiej jest w GET /reservation/simple-search, który realizuje:
+ - pobrać listę rezerwacji dla zadanego najemcę (nazwa)
+ - pobrać listę rezerwacji dla danego obiektu
+Oba wymagania zostały zrealizowane w jednym endpoincie.
+Pierwsze wymaganie jest zrealizowane poprzez podanie paramteru tenantName.
+Założyłem że najemca ma unikalne pole name (dodałem unique = true w Tenant.java).
+Aby przetestować działanie można wywołać GET http://localhost:8080/reservations/simple-search?tenantName=Tenant1
+Drugi przypadek jest realizowany przez parametr apartamentId (GET http://localhost:8080/reservations/simple-search?apartamentId=1).
+
+Gdy podamy oba parametry lub żadnen, zwracamy błąd 400 HttpStatus.BAD_REQUEST, "Only one parameter is processed"
+
+Zrealizowałem pierwszy raport.
+http://localhost:8080/reports/periodic?startDate=2020-01-01&stopDate=2023-12-12&apartmentId=1
+
+Zlicza ilość dni zarezerwowanych wraz z ilością rezerwacji.
+Odpwoiedź w formacie:
+  "startDate": "2020-01-01",
+  "stopDate": "2023-12-12",
+  "bookedDaysCount": 16,
+  "reservationCount": 2
+}
+
+Błędy obsługiwane są przez GlobalExceptionHandler oznaczone adnotacją @ControllerAdvice.
+W klasie tej można definiować metody, które obsługują poszczególne błędy, które można zadeklarować w @ExceptionHandler({NazwaKlasyBledu.class})
+
+W wolnej chwili można usunąć wszystko związane z User (zastąpił go Tenatn).

@@ -26,18 +26,18 @@ public class InitData {
     @PostConstruct
     void init() {
         var tenant1 = Tenant.builder()
-                .name("Tenant" + RandomUtils.nextInt()).build();
+                .name("Tenant1").build();
         var tenant2 = Tenant.builder()
-                .name("Tenant" + RandomUtils.nextInt()).build();
+                .name("Tenant2").build();
 
         var owner1 = Owner.builder()
-                .name("Owner" + RandomUtils.nextInt()).build();
+                .name("Owner1" + RandomUtils.nextInt()).build();
 
         var owner2 = Owner.builder()
-                .name("Owner" + RandomUtils.nextInt()).build();
+                .name("Owner2").build();
 
         var apartament1 = Apartment.builder()
-                .name("Apartment" + RandomUtils.nextInt())
+                .name("Apartment1")
                 .area(50.0)
                 .overnightFee(100.0)
                 .owner(owner1)
@@ -51,6 +51,14 @@ public class InitData {
                 .tenant(tenant1)
                 .build();
         reservation1.countPrice();
+        var reservation2 = Reservation.builder()
+                .startDate(today.plusDays(11))
+                .stopDate(today.plusDays(15))
+                .apartment(apartament1)
+                .tenant(tenant2)
+                .build();
+        reservation2.countPrice();
+
 
         ownerRepository.save(owner1);
         ownerRepository.save(owner2);
@@ -58,5 +66,6 @@ public class InitData {
         tenantRepository.save(tenant2);
         apartmentRepository.save(apartament1);
         reservationRepository.save(reservation1);
+        reservationRepository.save(reservation2);
     }
 }
